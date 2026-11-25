@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>POM – 필요한 만큼 빌리는 디지털 교재</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<style>
+:root{--ink:#141414;--mute:#666;--line:#e6e6e6;--bg:#f6f6f6;--blue:#2f6bff;--yellow:#ffc933;--coral:#ff6b4a;--bad:#c8321a;--ok:#0b6b46;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:#fff;color:var(--ink);font-family:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;font-size:16px;word-break:keep-all}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}
+header{border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
+.logo{font-weight:900;font-size:26px;letter-spacing:-.04em}
+.logo::after{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--coral);margin-left:3px}
+.logo small{display:block;font-size:11px;font-weight:500;color:var(--mute);margin-top:-6px;letter-spacing:0}
+nav{display:flex}
+.tab{min-height:48px;padding:0 2px;margin-left:20px;border:0;border-bottom:3px solid transparent;background:none;cursor:pointer;font-weight:700;color:var(--mute)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.tab .n{display:inline-block;min-width:20px;padding:0 6px;margin-left:6px;border-radius:99px;background:var(--coral);color:#fff;font-size:12px;text-align:center}
+.hero{padding:36px 0 30px;display:grid;gap:26px}
+.hero h1{font-size:clamp(32px,7vw,56px);font-weight:900;line-height:1.18;letter-spacing:-.045em;margin:0 0 14px}
+.hero p{margin:0 0 22px;color:var(--mute);max-width:44ch}
+.price{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.price div{padding:12px 12px 14px;border-radius:6px;display:flex;flex-direction:column;color:#fff}
+.price .w2{background:var(--yellow);color:var(--ink)}.price .m1{background:var(--coral)}.price .sem{background:var(--blue)}
+.price span{font-size:13px;font-weight:700}.price b{white-space:nowrap;font-size:clamp(16px,4.6vw,21px);font-weight:900;letter-spacing:-.03em}.price i{font-style:normal;font-size:12px;opacity:.9}
+.note{font-size:13px;color:var(--mute);margin:8px 0 0}
+.stage{background:#dcebff;border-radius:8px;min-height:200px;display:flex;align-items:center;justify-content:center;gap:10px;padding:24px 12px;overflow:hidden}
+.stage .cover{width:30%;max-width:128px;font-size:17px;padding:12px}
+.stage .cover:nth-child(1){transform:rotate(-6deg) translateY(10px)}.stage .cover:nth-child(3){transform:rotate(6deg) translateY(16px)}
+.cover{position:relative;overflow:hidden;flex:none;align-self:flex-start;width:84px;aspect-ratio:3/4;padding:8px 8px 8px 12px;border-radius:3px 7px 7px 3px;font-weight:900;font-size:12px;overflow-wrap:anywhere;line-height:1.25;letter-spacing:-.03em;box-shadow:inset 5px 0 0 rgba(0,0,0,.14)}
+.cover::after{content:"";position:absolute;right:-16px;bottom:-16px;width:62%;aspect-ratio:1;border-radius:50%;background:currentColor;opacity:.18}
+.cover span{position:relative;z-index:1}
+.layout{display:grid;gap:26px;padding-bottom:40px}
+.panel{padding:0}
+.sticky{border:1.5px solid var(--ink);border-radius:8px;padding:18px}
+h2{font-size:22px;font-weight:900;letter-spacing:-.03em;margin:0 0 12px}
+label{font-weight:700;font-size:14px;display:block;margin-bottom:6px}
+.field{width:100%;min-height:48px;padding:0 14px;border:1.5px solid #cfcfcf;border-radius:6px;background:#fff}
+.field:focus{border-color:var(--ink)}
+textarea.field{padding:10px 14px;min-height:64px;resize:vertical}
+.books{display:grid;gap:0 30px;margin-top:10px}
+.book{display:flex;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.bi{flex:1;min-width:0;display:grid;gap:10px;align-content:start}
+.book h3{margin:0;font-size:17px;letter-spacing:-.02em}.meta{font-size:13px;color:var(--mute)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 14px;border:1.5px solid #cfcfcf;border-radius:99px;background:#fff;cursor:pointer;font-weight:500}
+.seg button[aria-pressed="true"]{font-weight:700;color:#fff;border-color:transparent}
+.seg [data-p="w2"][aria-pressed="true"]{background:var(--yellow);color:var(--ink)}
+.seg [data-p="m1"][aria-pressed="true"]{background:var(--coral)}
+.seg [data-p="sem"][aria-pressed="true"]{background:var(--blue)}
+.btn{min-height:48px;padding:0 20px;border:1.5px solid var(--ink);border-radius:6px;background:var(--ink);color:#fff;font-weight:700;cursor:pointer}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:#fff;color:var(--ink)}
+.btn.sm{min-height:44px;padding:0 14px}
+.btn.danger{background:#fff;color:var(--bad);border-color:var(--bad)}
+.pr{font-weight:900;font-size:18px}.pr s{font-weight:400;font-size:13px;color:var(--mute);margin-left:6px}
+.tag{font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:#eee;vertical-align:middle}
+.tag.ok{background:#d9f5e8;color:var(--ok)}.tag.warn{background:#ffe3dc;color:#a8280f}
+.sum{background:var(--bg);border-radius:6px;padding:12px 14px;margin:12px 0}
+.sum div{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
+.sum .save{font-size:17px;font-weight:900;background:var(--yellow);border-radius:4px;padding:8px 10px;margin-top:6px}
+.cartitem{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.cartitem button{min-width:44px;min-height:44px;border:0;background:none;color:var(--bad);cursor:pointer;font-weight:700}
+.empty{padding:22px;text-align:center;color:var(--mute);border:1.5px dashed #cfcfcf;border-radius:6px}
+.err{color:var(--bad);font-size:14px;margin:6px 0 0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:6px;max-width:92vw;font-size:14px;z-index:9}
+[hidden]{display:none!important}
+.legal{font-size:12.5px;color:var(--mute);padding:6px 0 40px;border-top:1px solid var(--line);margin-top:10px}
+#v-shelf .panel{margin-bottom:26px}
+@media(min-width:768px){.hero{grid-template-columns:1.15fr 1fr;align-items:center}.books{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.layout.two{grid-template-columns:1.6fr 1fr;align-items:start}.sticky{position:sticky;top:12px}}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <div class="logo">POM<small>Page On Moment</small></div>
+  <nav role="tablist" aria-label="화면 선택">
+    <button class="tab" role="tab" id="t-find" aria-selected="true">교재 찾기<span class="n" id="cartN">0</span></button>
+    <button class="tab" role="tab" id="t-shelf" aria-selected="false">내 서재<span class="n" id="shelfN">0</span></button>
+  </nav>
+</div></header>
+
+<main class="wrap"><noscript><p class="err">스크립트가 꺼진 미리보기라서 교재 목록이 보이지 않아요. 저장한 파일 미리보기 대신 Safari나 Chrome에서 링크를 열어 주세요.</p></noscript>
+  <section class="hero" aria-label="서비스 소개">
+    <div>
+      <h1>교재를 꼭 구매해야 할까요? 필요한 만큼 이용하세요.</h1>
+      <p>2주, 1개월, 한 학기 중 필요한 기간만 골라 교재 PDF를 빌리세요. 교재 5권(정가 150,000원)을 한 학기 동안 빌리면 52,500원이에요.</p>
+      <div class="price" aria-label="대여 요금표">
+        <div class="w2"><span>2주</span><b>3,000원</b><i>정가의 10%</i></div>
+        <div class="m1"><span>1개월</span><b>6,000원</b><i>정가의 20%</i></div>
+        <div class="sem"><span>한 학기</span><b>10,500원</b><i>정가의 35%</i></div>
+      </div>
+      <p class="note">정가 30,000원 교재 기준 예시입니다.</p>
+    </div>
+    <div class="stage" role="img" aria-label="색색의 교재 표지 예시">
+      <div class="cover" style="background:#2f6bff;color:#fff"><span>전공<br>교재</span></div>
+      <div class="cover" style="background:#ffc933;color:#141414"><span>교양<br>교재</span></div>
+      <div class="cover" style="background:#ff6b4a;color:#fff"><span>수업<br>자료</span></div>
+    </div>
+  </section>
+
+  <div id="v-find" class="layout two">
+    <section class="panel" aria-labelledby="h-find">
+      <h2 id="h-find">빌릴 교재 찾기</h2>
+      <label for="q">교재명 또는 과목명</label>
+      <input id="q" class="field" type="search" placeholder="예: 유아교육, 통계" autocomplete="off" maxlength="40">
+      <p class="note">아래 목록은 시연용 예시 교재입니다. 실제 출판사 교재와 연동되어 있지 않습니다.</p>
+      <div id="books" class="books" aria-live="polite"></div>
+    </section>
+    <aside class="panel sticky" aria-labelledby="h-cart">
+      <h2 id="h-cart">대여 목록</h2>
+      <div id="cart"></div>
+      <div id="sum"></div>
+      <div class="row">
+        <button class="btn" id="rentBtn">대여 시작하기</button>
+        <button class="btn ghost" id="copyBtn">견적 복사하기</button>
+        <button class="btn danger sm" id="clearCart">비우기</button>
+      </div>
+      <p class="err" id="cartErr" role="alert"></p>
+    </aside>
+  </div>
+
+  <div id="v-shelf" hidden>
+    <section class="panel" aria-labelledby="h-shelf">
+      <h2 id="h-shelf">대여 중인 교재</h2>
+      <div id="shelf" class="books"></div>
+    </section>
+    <section class="panel" style="margin:18px 0" aria-labelledby="h-hist">
+      <h2 id="h-hist">반납한 교재</h2>
+      <div id="hist"></div>
+      <div class="row" style="margin-top:14px"><button class="btn danger sm" id="resetBtn">모든 기록 삭제하기</button></div>
+    </section>
+  </div>
+
+  <p class="legal">이 앱은 발표용 시연 버전입니다. 결제와 구매는 진행되지 않으며, 정식 서비스는 출판사·저작권자와의 이용 계약, 도서관 연계, 서버 개발이 이뤄진 뒤에 가능합니다. 대여 기록은 이 기기의 브라우저에만 저장됩니다.</p>
+</main>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+"use strict";
+var PERIODS={w2:{label:"2주",days:14,rate:.10},m1:{label:"1개월",days:30,rate:.20},sem:{label:"한 학기",days:112,rate:.35}};
+var BOOKS=[
+{id:1,title:"유아교육개론",course:"유아교육과 전공",list:28000},
+{id:2,title:"아동발달의 이해",course:"유아교육과 전공",list:32000},
+{id:3,title:"말하기와 사고",course:"교양",list:18000},
+{id:4,title:"세계사 입문",course:"교양",list:25000},
+{id:5,title:"철학의 첫걸음",course:"교양",list:22000},
+{id:6,title:"미시경제학 원론",course:"경영학과 전공",list:38000},
+{id:7,title:"통계학 기초",course:"공통 기초",list:30000},
+{id:8,title:"교육심리학",course:"교직 과목",list:29000},
+{id:9,title:"디지털 리터러시",course:"교양",list:20000},
+{id:10,title:"글쓰기 실전",course:"교양",list:17000}];
+var KEY="pom_v1";
+var state={cart:[],rentals:[],query:"",periods:{}};
+var tTimer;
+
+function load(){try{var r=localStorage.getItem(KEY);if(r){var d=JSON.parse(r);if(d&&Array.isArray(d.cart)&&Array.isArray(d.rentals)){state.cart=d.cart.filter(function(c){return book(c.id)&&PERIODS[c.p]});state.rentals=d.rentals}}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({cart:state.cart,rentals:state.rentals}))}catch(e){}}
+function book(id){return BOOKS.filter(function(b){return b.id===id})[0]}
+function price(b,p){return Math.round(b.list*PERIODS[p].rate/100)*100}
+function won(n){return n.toLocaleString("ko-KR")+"원"}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function $(id){return document.getElementById(id)}
+function today(){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
+function addDays(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x}
+function iso(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function parse(s){var a=s.split("-");return new Date(+a[0],+a[1]-1,+a[2])}
+function dleft(s){return Math.round((parse(s)-today())/86400000)}
+function toast(m){var t=$("toast");t.textContent=m;t.hidden=false;clearTimeout(tTimer);tTimer=setTimeout(function(){t.hidden=true},3200)}
+function isRented(id){return state.rentals.some(function(r){return r.bid===id&&!r.returned})}
+function inCart(id){return state.cart.some(function(c){return c.id===id})}
+
+var COV=[["#2f6bff","#fff"],["#ffc933","#141414"],["#ff6b4a","#fff"],["#1fb77a","#fff"],["#ff8fb1","#141414"],["#7b5cff","#fff"]];
+function cover(id,t){var c=COV[id%6];return '<div class="cover" style="background:'+c[0]+';color:'+c[1]+'" aria-hidden="true"><span>'+esc(t)+'</span></div>'}
+function renderBooks(){
+  var q=state.query.trim().toLowerCase();
+  var list=BOOKS.filter(function(b){return !q||b.title.toLowerCase().indexOf(q)>-1||b.course.toLowerCase().indexOf(q)>-1});
+  var el=$("books");
+  if(!list.length){el.innerHTML='<div class="empty">‘'+esc(state.query)+'’에 맞는 교재가 없어요.<br>교재명이나 과목명의 일부만 입력해 보세요.</div>';return}
+  el.innerHTML=list.map(function(b){
+    var cur=state.periods[b.id]||"sem";
+    var seg=Object.keys(PERIODS).map(function(k){return '<button type="button" data-act="per" data-id="'+b.id+'" data-p="'+k+'" aria-pressed="'+(cur===k)+'">'+PERIODS[k].label+'</button>'}).join("");
+    var st=isRented(b.id)?'<span class="tag ok">대여 중</span>':inCart(b.id)?'<span class="tag">목록에 담김</span>':"";
+    var dis=isRented(b.id)||inCart(b.id);
+    return '<article class="book">'+cover(b.id,b.title)+'<div class="bi"><div><h3>'+esc(b.title)+' '+st+'</h3><div class="meta">'+esc(b.course)+' · 정가 '+won(b.list)+'</div></div>'+
+    '<div class="seg" role="group" aria-label="'+esc(b.title)+' 대여 기간">'+seg+'</div>'+
+    '<div class="row" style="justify-content:space-between"><span class="pr">'+won(price(b,cur))+'<s>'+won(b.list)+'</s></span>'+
+    '<button class="btn sm" data-act="add" data-id="'+b.id+'"'+(dis?" disabled":"")+'>'+(dis?"담았어요":"담기")+'</button></div></div></article>'}).join("");
+}
+function totals(){var l=0,r=0;state.cart.forEach(function(c){var b=book(c.id);l+=b.list;r+=price(b,c.p)});return{l:l,r:r,s:l-r,pct:l?Math.round((l-r)/l*100):0}}
+function renderCart(){
+  var c=$("cart");
+  if(!state.cart.length){c.innerHTML='<div class="empty">아직 담은 교재가 없어요.<br>왼쪽에서 교재와 기간을 고른 뒤 ‘담기’를 눌러 보세요.</div>';$("sum").innerHTML=""}
+  else{
+    c.innerHTML=state.cart.map(function(x){var b=book(x.id);return '<div class="cartitem"><div><b>'+esc(b.title)+'</b><div class="meta note">'+PERIODS[x.p].label+' · '+won(price(b,x.p))+'</div></div><button data-act="del" data-id="'+b.id+'" aria-label="'+esc(b.title)+' 빼기">빼기</button></div>'}).join("");
+    var t=totals();
+    $("sum").innerHTML='<div class="sum"><div><span>전부 구매하면</span><b>'+won(t.l)+'</b></div><div><span>빌리면</span><b>'+won(t.r)+'</b></div><div class="save"><span>절감액</span><span>'+won(t.s)+' ('+t.pct+'%)</span></div></div>'}
+  $("rentBtn").disabled=!state.cart.length;$("copyBtn").disabled=!state.cart.length;$("clearCart").disabled=!state.cart.length;
+  $("cartN").textContent=state.cart.length;
+}
+function renderShelf(){
+  var act=state.rentals.filter(function(r){return !r.returned}),done=state.rentals.filter(function(r){return r.returned});
+  $("shelfN").textContent=act.length;
+  $("shelf").innerHTML=act.length?act.map(function(r){
+    var d=dleft(r.end),tag=d<0?'<span class="tag warn">기간 지남 '+(-d)+'일</span>':d===0?'<span class="tag warn">D-day</span>':'<span class="tag ok">D-'+d+'</span>';
+    return '<article class="book">'+cover(r.bid,r.title)+'<div class="bi"><div><h3>'+esc(r.title)+' '+tag+'</h3><div class="meta">'+PERIODS[r.p].label+' 대여 · '+r.start+' ~ '+r.end+'</div></div>'+
+    '<div><label for="m'+r.rid+'">메모</label><textarea class="field" id="m'+r.rid+'" data-memo="'+r.rid+'" maxlength="300" placeholder="시험 범위, 읽을 쪽수 등을 적어 두세요">'+esc(r.memo||"")+'</textarea></div>'+
+    '<div class="row"><button class="btn ghost sm" data-act="ext" data-id="'+r.rid+'">2주 연장 ('+won(Math.round(book(r.bid).list*.1/100)*100)+')</button><button class="btn sm" data-act="ret" data-id="'+r.rid+'">반납하기</button></div></div></article>'}).join(""):
+    '<div class="empty" style="grid-column:1/-1">대여 중인 교재가 없어요.<br>‘교재 찾기’에서 필요한 교재를 빌려 보세요.</div>';
+  $("hist").innerHTML=done.length?done.slice().reverse().map(function(r){return '<div class="cartitem"><div><b>'+esc(r.title)+'</b><div class="note">'+PERIODS[r.p].label+' 대여 · 반납 '+r.returned+'</div></div></div>'}).join(""):'<div class="empty">아직 반납한 교재가 없어요.</div>';
+}
+function renderAll(){renderBooks();renderCart();renderShelf()}
+function show(v){var f=v==="find";$("v-find").hidden=!f;$("v-shelf").hidden=f;$("t-find").setAttribute("aria-selected",f);$("t-shelf").setAttribute("aria-selected",!f);window.scrollTo(0,0)}
+
+document.addEventListener("click",function(e){
+  var t=e.target.closest("[data-act]");if(!t)return;
+  var a=t.dataset.act,id=+t.dataset.id;$("cartErr").textContent="";
+  if(a==="per"){state.periods[id]=t.dataset.p;renderBooks()}
+  else if(a==="add"){if(isRented(id)||inCart(id))return;state.cart.push({id:id,p:state.periods[id]||"sem"});save();renderAll();toast("대여 목록에 담았어요.")}
+  else if(a==="del"){state.cart=state.cart.filter(function(c){return c.id!==id});save();renderAll()}
+  else if(a==="ext"){var r=state.rentals.filter(function(x){return x.rid===id})[0];if(r){var base=dleft(r.end)<0?today():parse(r.end);r.end=iso(addDays(base,14));save();renderShelf();toast("2주 연장했어요. 반납일은 "+r.end+"입니다.")}}
+  else if(a==="ret"){var q=state.rentals.filter(function(x){return x.rid===id})[0];if(q){q.returned=iso(today());save();renderAll();toast("반납했어요. 교재 열람이 종료되었습니다.")}}
+});
+$("q").addEventListener("input",function(e){state.query=e.target.value;renderBooks()});
+$("t-find").addEventListener("click",function(){show("find")});
+$("t-shelf").addEventListener("click",function(){show("shelf")});
+$("rentBtn").addEventListener("click",function(){
+  if(!state.cart.length){$("cartErr").textContent="담은 교재가 없어요. 교재와 기간을 먼저 담아 주세요.";return}
+  var s=today();
+  state.cart.forEach(function(c){var b=book(c.id);if(isRented(b.id))return;state.rentals.push({rid:Date.now()+Math.floor(Math.random()*1000)+c.id,bid:b.id,title:b.title,p:c.p,price:price(b,c.p),start:iso(s),end:iso(addDays(s,PERIODS[c.p].days)),memo:"",returned:null})});
+  var n=state.cart.length;state.cart=[];save();renderAll();show("shelf");toast(n+"권 대여를 시작했어요. 시연이라 결제는 진행되지 않았습니다.")});
+$("clearCart").addEventListener("click",function(){state.cart=[];save();renderAll()});
+$("copyBtn").addEventListener("click",function(){
+  if(!state.cart.length)return;var t=totals();
+  var txt="[POM 대여 견적]\n"+state.cart.map(function(c){var b=book(c.id);return "- "+b.title+" ("+PERIODS[c.p].label+") "+won(price(b,c.p))}).join("\n")+"\n구매 시 "+won(t.l)+" → 대여 시 "+won(t.r)+" (절감 "+won(t.s)+", "+t.pct+"%)";
+  function fb(){var ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand("copy")}catch(e){}document.body.removeChild(ta);toast(ok?"견적을 복사했어요.":"복사하지 못했어요. 직접 선택해서 복사해 주세요.")}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){toast("견적을 복사했어요.")},fb)}else fb()});
+$("shelf").addEventListener("input",function(e){var id=e.target.dataset.memo;if(!id)return;var r=state.rentals.filter(function(x){return String(x.rid)===id})[0];if(r){r.memo=e.target.value;save()}});
+var armed=false,rt;
+$("resetBtn").addEventListener("click",function(){
+  var b=this;if(!armed){armed=true;b.textContent="한 번 더 누르면 모두 삭제돼요";clearTimeout(rt);rt=setTimeout(function(){armed=false;b.textContent="모든 기록 삭제하기"},4000);return}
+  armed=false;clearTimeout(rt);state.cart=[];state.rentals=[];save();b.textContent="모든 기록 삭제하기";renderAll();toast("저장된 기록을 모두 삭제했어요.")});
+load();renderAll();
+})();
+</script>
+</body>
+</html>
